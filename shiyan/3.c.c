@@ -11,22 +11,23 @@ struct{
 }Advertisement[MAXN];
 int r[MAXN],tot,tmp[MAXN];
 
-void merge(int L,int mid,int R,int cmp(int,int)){
-	int tmplen=mid-L;
-	for(int i=0;i<tmplen;++i)tmp[i]=r[L+i];
-	for(int k=L,i=0,j=mid;k<R;++k){
-		if(i>=tmplen||(j<R&&cmp(r[j],tmp[i])!=1))r[k]=r[j++];
-		else r[k]=tmp[i++];
+void merge_sort(int array_len,int cmp(int,int)){
+	int len=1;
+	while(len<array_len){
+		int cnt=array_len/(len<<1);
+		if(array_len%(len<<1))++cnt;
+		int i,j,ll=0,rr=((len<<1)<array_len? (len<<1): array_len);
+		while(cnt--){
+			for(i=0;i<len;++i)tmp[i]=r[i+ll];
+			for(i=0,j=ll+len;ll<rr;++ll){
+				if(i>=len||(j<rr&&cmp(r[j],tmp[i])<1))r[ll]=r[j++];
+				else r[ll]=tmp[i++];
+			}
+			rr+=(len<<1);
+			if(rr>array_len)rr=array_len;
+		}
+		len<<=1;
 	}
-}
-
-void merge_sort(int L,int R,int cmp(int,int)){
-	if(R-L<2)return;
-	int mid=(L+R)>>1;
-	merge_sort(L,mid,cmp);
-	merge_sort(mid,R,cmp);
-	merge(L,mid,R,cmp);
-	return ;
 }
 
 int cmp_string(char* x,char* y){
@@ -68,11 +69,11 @@ int main(){
 	printf(">> ");
 	while(scanf("%s",buf)!=EOF){
 		if(strcmp(buf,"title")==0)
-			merge_sort(0,tot,cmp_title);
+			merge_sort(tot,cmp_title);
 		else if(strcmp(buf,"email")==0)
-			merge_sort(0,tot,cmp_email);
+			merge_sort(tot,cmp_email);
 		else if(strcmp(buf,"num")==0)
-			merge_sort(0,tot,cmp_num);
+			merge_sort(tot,cmp_num);
 		else if(strcmp(buf,"print")==0){
 			for(int i=0;i<tot;++i){
 				printf("%d\n\t%s\n\t%d\n\t%s\n",i+1,Advertisement[r[i]].title,

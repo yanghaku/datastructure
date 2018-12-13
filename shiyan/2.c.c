@@ -123,7 +123,6 @@ int calcular(char* s){
 			++i;
 		}
 	}
-	assert(st._size==1);
 	tmp1=top(&st);
 	destroy(&st);
 	return tmp1;

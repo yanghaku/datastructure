@@ -16,6 +16,7 @@ void init_stack(Stack* st){
 	st->cap=DEFAULT_SIZE;
 	st->elem=(car*)malloc(sizeof(car)*st->cap);
 }
+
 void push_stack(Stack* st,int num,int time){
 	st->elem[st->size].num=num;
 	st->elem[st->size++].time=time;
@@ -53,6 +54,7 @@ void pop_queue(Queue* q){
 	q->end->next=q->front->next;
 	free(q->front);
 	q->front=q->end->next;
+	--q->size;
 }
 void destroy_queue(Queue* q){
 	node* p;
@@ -65,7 +67,6 @@ void destroy_queue(Queue* q){
 }
 
 int main(){
-	static char s[100];
 	char op;
 	int num,time;
 	Stack park,tmp_stack;
@@ -87,6 +88,7 @@ int main(){
 		else if(op=='D'){
 			car tmp_car;
 			tmp_car.num=-1;
+			tmp_stack.size=0;
 			while(park.size!=0){
 				tmp_car=top_stack(&park);
 				pop_stack(&park);
@@ -115,3 +117,4 @@ int main(){
 	destroy_stack(&park);destroy_stack(&tmp_stack);
 	return 0;
 }
+

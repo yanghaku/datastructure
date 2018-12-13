@@ -29,8 +29,7 @@ void push(Stack* st,T val){
 	st->_elem[st->_size++]=val;
 }
 
-char s[100000];
-int judge(){
+int judge(char s[]){
 	Stack st;
 	init_stack(&st,1000);
 	for(int i=0;s[i];++i){
@@ -47,7 +46,9 @@ int judge(){
 	return 1;
 }
 int main(){
-	scanf("%s",s);
-	puts(judge()?"YES":"NO");
+	static char s[100000];
+	while(scanf("%s",s)!=EOF){
+		puts(judge(s)?"YES":"NO");
+	}
 	return 0;
 }
